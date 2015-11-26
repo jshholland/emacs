@@ -72,14 +72,6 @@
 (set-face-background 'shm-quarantine-face "#ab4642")
 (define-key shm-map (kbd "C-c C-s") 'shm/case-split)
 
-(require 'edit-server)
-(setq edit-server-new-frame t)
-(add-hook 'edit-server-edit-mode-hook
-	  (lambda ()
-	    (visual-line-mode 1)
-	    (auto-fill-mode -1)))
-(edit-server-start)
-
 (load (expand-file-name "~/quicklisp/slime-helper.el"))
 (setq inferior-lisp-program "/usr/bin/sbcl")
 (setq slime-contribs '(slime-fancy))
