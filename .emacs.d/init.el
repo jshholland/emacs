@@ -72,10 +72,6 @@
 (set-face-background 'shm-quarantine-face "#ab4642")
 (define-key shm-map (kbd "C-c C-s") 'shm/case-split)
 
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
-(setq inferior-lisp-program "/usr/bin/sbcl")
-(setq slime-contribs '(slime-fancy))
-(add-hook 'slime-repl-mode-hook 'paredit-mode)
 (add-hook 'lisp-mode-hook 'paredit-mode)
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 
@@ -93,10 +89,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-	("9f3a4edb56d094366afed2a9ba3311bbced0f32ca44a47a765d8ef4ce5b8e4ea" "4cdea318a3efab7ff7c832daea05f6b2d5d0a18b9bfa79763b674e860ecbc6da" "83279c1d867646c5eea8a804a67a23e581b9b3b67f007e7831279ed3a4de9466" "0240d45644b370b0518e8407f5990a243c769fb0150a7e74297e6f7052a04a72" "75c0b1d2528f1bce72f53344939da57e290aa34bea79f3a1ee19d6808cb55149" default)))
- '(magit-use-overlays nil))
+ '(custom-safe-themes (quote ("9f3a4edb56d094366afed2a9ba3311bbced0f32ca44a47a765d8ef4ce5b8e4ea" "4cdea318a3efab7ff7c832daea05f6b2d5d0a18b9bfa79763b674e860ecbc6da" "83279c1d867646c5eea8a804a67a23e581b9b3b67f007e7831279ed3a4de9466" "0240d45644b370b0518e8407f5990a243c769fb0150a7e74297e6f7052a04a72" "75c0b1d2528f1bce72f53344939da57e290aa34bea79f3a1ee19d6808cb55149" default)))
+ '(magit-use-overlays nil)
+ '(safe-local-variable-values (quote ((pyvenv-workon . miniserver_backup)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -110,3 +105,14 @@
 (setq lua-indent-level 2)
 (add-hook 'lua-mode (lambda ()
 					  (setq-local indent-tabs-mode nil)))
+
+(require 'notmuch)
+(setq notmuch-command "/home/jholland/bin/notmuch-remote")
+(setq notmuch-fcc-dirs nil)
+(add-hook 'message-header-setup-hook
+    (lambda () (insert (format "Bcc: %s <%s>\n"
+                (notmuch-user-name)
+                (notmuch-user-primary-email)))))
+(require 'notmuch-address)
+(setq notmuch-address-command "/home/jholland/bin/notmuch-addrlookup")
+(notmuch-address-message-insinuate)
