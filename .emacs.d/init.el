@@ -67,7 +67,6 @@
 (require 'shm-case-split)
 (add-hook 'haskell-mode-hook 'structured-haskell-mode)
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-(setq shm-program-name "/home/jholland/bin/structured-haskell-mode")
 (set-face-background 'shm-current-face "#282828")
 (set-face-background 'shm-quarantine-face "#ab4642")
 (define-key shm-map (kbd "C-c C-s") 'shm/case-split)
