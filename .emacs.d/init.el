@@ -1,6 +1,7 @@
 (require 'package)
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/") t)
+             '("melpa" . "http://melpa.org/packages/")
+			 '("elpy" . "http://jorgenschaefer.github.io/packages/"))
 (package-initialize)
 
 (load-theme 'base16-default-dark t)
@@ -34,8 +35,7 @@
 
 (setq tramp-default-method "ssh")
 
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "google-chrome-unstable")
+(setq browse-url-browser-function 'browse-url-firefox)
 
 (set-language-environment "UTF-8")
 
@@ -73,6 +73,7 @@
 
 (add-hook 'lisp-mode-hook 'paredit-mode)
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+(add-hook 'scheme-mode-hook 'paredit-mode)
 
 (require 'virtualenvwrapper)
 (venv-initialize-eshell)
@@ -88,9 +89,14 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes (quote ("9f3a4edb56d094366afed2a9ba3311bbced0f32ca44a47a765d8ef4ce5b8e4ea" "4cdea318a3efab7ff7c832daea05f6b2d5d0a18b9bfa79763b674e860ecbc6da" "83279c1d867646c5eea8a804a67a23e581b9b3b67f007e7831279ed3a4de9466" "0240d45644b370b0518e8407f5990a243c769fb0150a7e74297e6f7052a04a72" "75c0b1d2528f1bce72f53344939da57e290aa34bea79f3a1ee19d6808cb55149" default)))
+ '(custom-safe-themes
+   (quote
+	("9f3a4edb56d094366afed2a9ba3311bbced0f32ca44a47a765d8ef4ce5b8e4ea" "4cdea318a3efab7ff7c832daea05f6b2d5d0a18b9bfa79763b674e860ecbc6da" "83279c1d867646c5eea8a804a67a23e581b9b3b67f007e7831279ed3a4de9466" "0240d45644b370b0518e8407f5990a243c769fb0150a7e74297e6f7052a04a72" "75c0b1d2528f1bce72f53344939da57e290aa34bea79f3a1ee19d6808cb55149" default)))
  '(magit-use-overlays nil)
- '(safe-local-variable-values (quote ((pyvenv-workon . miniserver_backup)))))
+ '(safe-local-variable-values (quote ((pyvenv-workon . miniserver_backup))))
+ '(send-mail-function (quote smtpmail-send-it))
+ '(smtpmail-smtp-server "smtp.siriusopensource.com")
+ '(smtpmail-smtp-service 25))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -115,3 +121,5 @@
 (require 'notmuch-address)
 (setq notmuch-address-command "/home/jholland/bin/notmuch-addrlookup")
 (notmuch-address-message-insinuate)
+
+(elpy-enable)
