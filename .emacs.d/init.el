@@ -6,7 +6,7 @@
 
 (load-theme 'base16-default-dark t)
 
-(set-face-font 'default "Input Mono-13")
+(set-face-font 'default "Anonymous Pro-14")
 (set-face-font 'variable-pitch "Concourse T4-14")
 
 (desktop-save-mode 1)
@@ -19,6 +19,9 @@
 
 (server-start)
 (global-linum-mode 1)
+
+(global-flycheck-mode 1)
+(global-company-mode 1)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -80,10 +83,6 @@
 (setq venv-location "/home/jholland/.venvs/")
 (add-hook 'python-mode (lambda () (setq indent-tabs-mode nil)))
 
-(add-hook 'eshell-mode-hook
-	  (lambda () (dolist (command '("tmux"))
-		       (add-to-list 'eshell-visual-commands command))))
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -93,10 +92,10 @@
    (quote
 	("9f3a4edb56d094366afed2a9ba3311bbced0f32ca44a47a765d8ef4ce5b8e4ea" "4cdea318a3efab7ff7c832daea05f6b2d5d0a18b9bfa79763b674e860ecbc6da" "83279c1d867646c5eea8a804a67a23e581b9b3b67f007e7831279ed3a4de9466" "0240d45644b370b0518e8407f5990a243c769fb0150a7e74297e6f7052a04a72" "75c0b1d2528f1bce72f53344939da57e290aa34bea79f3a1ee19d6808cb55149" default)))
  '(magit-use-overlays nil)
- '(safe-local-variable-values (quote ((pyvenv-workon . miniserver_backup))))
- '(send-mail-function (quote smtpmail-send-it))
- '(smtpmail-smtp-server "smtp.siriusopensource.com")
- '(smtpmail-smtp-service 25))
+ '(package-selected-packages
+   (quote
+	(tuareg yaml-mode xml-rpc virtualenvwrapper twittering-mode toml-mode solarized-theme slime shakespeare-mode sensitive rustfmt puppet-mode paredit org-trello markdown-mode magit love-minor-mode ledger-mode jekyll-modes jabber intero idris-mode hackernews go-mode ghc flycheck-rust feature-mode erc-hl-nicks edit-server cargo beeminder base16-theme auctex)))
+ '(safe-local-variable-values (quote ((pyvenv-workon . miniserver_backup)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -111,6 +110,7 @@
 (add-hook 'lua-mode (lambda ()
 					  (setq-local indent-tabs-mode nil)))
 
+<<<<<<< HEAD
 (require 'notmuch)
 (setq notmuch-command "/home/jholland/bin/notmuch-remote")
 (setq notmuch-fcc-dirs nil)
@@ -123,3 +123,9 @@
 (notmuch-address-message-insinuate)
 
 (elpy-enable)
+=======
+(require 'ledger-mode)
+(add-to-list 'auto-mode-alist '("\.ledger$" . ledger-mode))
+(setq ledger-reconcile-default-commodity "£"
+	  ledger-clear-whole-transactions t)
+>>>>>>> who knows
