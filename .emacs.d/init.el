@@ -110,22 +110,7 @@
 (add-hook 'lua-mode (lambda ()
 					  (setq-local indent-tabs-mode nil)))
 
-<<<<<<< HEAD
-(require 'notmuch)
-(setq notmuch-command "/home/jholland/bin/notmuch-remote")
-(setq notmuch-fcc-dirs nil)
-(add-hook 'message-header-setup-hook
-    (lambda () (insert (format "Bcc: %s <%s>\n"
-                (notmuch-user-name)
-                (notmuch-user-primary-email)))))
-(require 'notmuch-address)
-(setq notmuch-address-command "/home/jholland/bin/notmuch-addrlookup")
-(notmuch-address-message-insinuate)
-
-(elpy-enable)
-=======
 (require 'ledger-mode)
 (add-to-list 'auto-mode-alist '("\.ledger$" . ledger-mode))
 (setq ledger-reconcile-default-commodity "£"
 	  ledger-clear-whole-transactions t)
->>>>>>> who knows
