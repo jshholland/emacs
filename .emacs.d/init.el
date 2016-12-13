@@ -63,7 +63,7 @@
 (add-hook 'text-mode-hook 'auto-fill-mode)
 (add-hook 'text-mode-hook 'visual-line-mode)
 
-(add-to-list 'load-path "~/structured-haskell-mode/elisp")
+(add-to-list 'load-path "~/h/structured-haskell-mode/elisp")
 (require 'haskell-mode)
 (require 'haskell-interactive-mode)
 (require 'shm)
