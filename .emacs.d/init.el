@@ -63,7 +63,7 @@
 (add-hook 'text-mode-hook 'auto-fill-mode)
 (add-hook 'text-mode-hook 'visual-line-mode)
 
-(add-to-list 'load-path "/home/jholland/h/structured-haskell-mode/elisp")
+(add-to-list 'load-path "~/structured-haskell-mode/elisp")
 (require 'haskell-mode)
 (require 'haskell-interactive-mode)
 (require 'shm)
@@ -80,7 +80,7 @@
 
 (require 'virtualenvwrapper)
 (venv-initialize-eshell)
-(setq venv-location "/home/jholland/.venvs/")
+(setq venv-location "~/.venvs/")
 (add-hook 'python-mode (lambda () (setq indent-tabs-mode nil)))
 
 (custom-set-variables
