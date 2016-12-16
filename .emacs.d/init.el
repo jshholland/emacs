@@ -68,6 +68,7 @@
 (require 'haskell-interactive-mode)
 (require 'shm)
 (require 'shm-case-split)
+(setq shm-program-name "~/.local/bin/structured-haskell-mode")
 (add-hook 'haskell-mode-hook 'structured-haskell-mode)
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
 (set-face-background 'shm-current-face "#282828")
