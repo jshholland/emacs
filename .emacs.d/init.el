@@ -9,6 +9,9 @@
 (set-face-font 'default "Anonymous Pro-14")
 (set-face-font 'variable-pitch "Concourse T4-14")
 
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
+
 (desktop-save-mode 1)
 (setq desktop-save t)
 (add-hook 'auto-save-hook
@@ -95,7 +98,7 @@
  '(magit-use-overlays nil)
  '(package-selected-packages
    (quote
-	(tuareg yaml-mode xml-rpc virtualenvwrapper twittering-mode toml-mode solarized-theme slime shakespeare-mode sensitive rustfmt puppet-mode paredit org-trello markdown-mode magit love-minor-mode ledger-mode jekyll-modes jabber intero idris-mode hackernews go-mode ghc flycheck-rust feature-mode erc-hl-nicks edit-server cargo beeminder base16-theme auctex)))
+	(exec-path-from-shell tuareg yaml-mode xml-rpc virtualenvwrapper twittering-mode toml-mode solarized-theme slime shakespeare-mode sensitive rustfmt puppet-mode paredit org-trello markdown-mode magit love-minor-mode ledger-mode jekyll-modes jabber intero idris-mode hackernews go-mode ghc flycheck-rust feature-mode erc-hl-nicks edit-server cargo beeminder base16-theme auctex)))
  '(safe-local-variable-values (quote ((pyvenv-workon . miniserver_backup)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
