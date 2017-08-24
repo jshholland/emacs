@@ -131,5 +131,9 @@
 (setq org-directory "~/Nextcloud/org/"
 	  org-mobile-directory "~/Nextcloud/org/mobile"
 	  org-mobile-inbox-for-pull "~/Nextcloud/org/frommobile.org"
-	  org-default-notes-file (concat org-directory "index.org"))
-(define-key global-map "\C-cc" 'org-capture)
+	  org-default-notes-file (concat org-directory "index.org")
+	  org-log-done 'time)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
