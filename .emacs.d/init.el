@@ -74,6 +74,7 @@
 (set-face-background 'shm-current-face "#282828")
 (set-face-background 'shm-quarantine-face "#ab4642")
 (define-key shm-map (kbd "C-c C-s") 'shm/case-split)
+(intero-global-mode 1)
 
 (add-hook 'lisp-mode-hook 'paredit-mode)
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
@@ -93,9 +94,10 @@
    (quote
 	("9f3a4edb56d094366afed2a9ba3311bbced0f32ca44a47a765d8ef4ce5b8e4ea" "4cdea318a3efab7ff7c832daea05f6b2d5d0a18b9bfa79763b674e860ecbc6da" "83279c1d867646c5eea8a804a67a23e581b9b3b67f007e7831279ed3a4de9466" "0240d45644b370b0518e8407f5990a243c769fb0150a7e74297e6f7052a04a72" "75c0b1d2528f1bce72f53344939da57e290aa34bea79f3a1ee19d6808cb55149" default)))
  '(magit-use-overlays nil)
+ '(org-agenda-files (quote ("~/Nextcloud/org/index.org")))
  '(package-selected-packages
    (quote
-	(tuareg yaml-mode xml-rpc virtualenvwrapper twittering-mode toml-mode solarized-theme slime shakespeare-mode sensitive rustfmt puppet-mode paredit org-trello markdown-mode magit love-minor-mode ledger-mode jekyll-modes jabber intero idris-mode hackernews go-mode ghc flycheck-rust feature-mode erc-hl-nicks edit-server cargo beeminder base16-theme auctex)))
+	(smartparens csv-mode tuareg yaml-mode xml-rpc virtualenvwrapper twittering-mode toml-mode solarized-theme slime shakespeare-mode sensitive rustfmt puppet-mode paredit org-trello markdown-mode magit love-minor-mode ledger-mode jekyll-modes jabber intero idris-mode hackernews go-mode ghc flycheck-rust feature-mode erc-hl-nicks edit-server cargo beeminder base16-theme auctex)))
  '(safe-local-variable-values (quote ((pyvenv-workon . miniserver_backup)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -115,3 +117,16 @@
 (add-to-list 'auto-mode-alist '("\.ledger$" . ledger-mode))
 (setq ledger-reconcile-default-commodity "£"
 	  ledger-clear-whole-transactions t)
+
+(load "~/PG/generic/proof-site")
+
+(require 'smartparens-config)
+(require 'smartparens-latex)
+(add-to-list 'sp-navigate-consider-stringlike-sexp 'latex-mode)
+(add-hook 'latex-mode-hook #'smartparens-mode)
+
+(setq org-directory "~/Nextcloud/org/"
+	  org-mobile-directory "~/Nextcloud/org/mobile"
+	  org-mobile-inbox-for-pull "~/Nextcloud/org/frommobile.org"
+	  org-default-notes-file (concat org-directory "index.org"))
+(define-key global-map "\C-cc" 'org-capture)
