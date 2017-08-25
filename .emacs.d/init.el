@@ -100,7 +100,7 @@
  '(org-agenda-files (quote ("~/Nextcloud/org/index.org")))
  '(package-selected-packages
    (quote
-	(exec-path-from-shell smartparens csv-mode tuareg yaml-mode xml-rpc virtualenvwrapper twittering-mode toml-mode solarized-theme slime shakespeare-mode sensitive rustfmt puppet-mode paredit org-trello markdown-mode magit love-minor-mode ledger-mode jekyll-modes jabber intero idris-mode hackernews go-mode ghc flycheck-rust feature-mode erc-hl-nicks edit-server cargo beeminder base16-theme auctex)))
+	(exec-path-from-shell smartparens csv-mode pkgbuild-mode tuareg yaml-mode xml-rpc virtualenvwrapper twittering-mode toml-mode solarized-theme slime shakespeare-mode sensitive rustfmt puppet-mode paredit org-trello markdown-mode magit love-minor-mode ledger-mode jekyll-modes jabber intero idris-mode hackernews go-mode ghc flycheck-rust feature-mode erc-hl-nicks edit-server cargo beeminder base16-theme auctex)))
  '(safe-local-variable-values (quote ((pyvenv-workon . miniserver_backup)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
