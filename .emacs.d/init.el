@@ -6,7 +6,7 @@
 
 (load-theme 'base16-default-dark t)
 
-(set-face-font 'default "Anonymous Pro-14")
+(set-face-font 'default "Fira Mono-12")
 (set-face-font 'variable-pitch "Concourse T4-14")
 
 (when (memq window-system '(mac ns))
@@ -46,6 +46,7 @@
 (set-language-environment "UTF-8")
 
 (scroll-bar-mode -1)
+(horizontal-scroll-bar-mode -1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (setq inhibit-startup-screen t
@@ -97,7 +98,7 @@
    (quote
 	("9f3a4edb56d094366afed2a9ba3311bbced0f32ca44a47a765d8ef4ce5b8e4ea" "4cdea318a3efab7ff7c832daea05f6b2d5d0a18b9bfa79763b674e860ecbc6da" "83279c1d867646c5eea8a804a67a23e581b9b3b67f007e7831279ed3a4de9466" "0240d45644b370b0518e8407f5990a243c769fb0150a7e74297e6f7052a04a72" "75c0b1d2528f1bce72f53344939da57e290aa34bea79f3a1ee19d6808cb55149" default)))
  '(magit-use-overlays nil)
- '(org-agenda-files (quote ("~/Nextcloud/org/index.org")))
+ '(org-agenda-files (quote ("~/Nextcloud/org/gtd.org")))
  '(package-selected-packages
    (quote
 	(exec-path-from-shell smartparens csv-mode pkgbuild-mode tuareg yaml-mode xml-rpc virtualenvwrapper twittering-mode toml-mode solarized-theme slime shakespeare-mode sensitive rustfmt puppet-mode paredit org-trello markdown-mode magit love-minor-mode ledger-mode jekyll-modes jabber intero idris-mode hackernews go-mode ghc flycheck-rust feature-mode erc-hl-nicks edit-server cargo beeminder base16-theme auctex)))
@@ -129,11 +130,43 @@
 (add-hook 'latex-mode-hook #'smartparens-mode)
 
 (setq org-directory "~/Nextcloud/org/"
-	  org-mobile-directory "~/Nextcloud/org/mobile"
-	  org-mobile-inbox-for-pull "~/Nextcloud/org/frommobile.org"
-	  org-default-notes-file (concat org-directory "index.org")
-	  org-log-done 'time)
+	  org-mobile-files `(,(concat org-directory "default.org") org-agenda-files)
+	  org-mobile-directory (concat org-directory "mobile")
+	  org-mobile-inbox-for-pull (concat org-directory "frommobile.org")
+	  org-default-notes-file (concat org-directory "default.org")
+	  org-log-done 'time
+	  org-capture-templates '(("t" "Todo" entry (file+headline (concat org-directory "gtd.org") "Tasks")
+							   "** TODO %? %^G\n   %i\n   %a\n   Added: %U"))
+	  org-tag-alist '((:startgroup . nil)
+					  ("office" . ?o) ("home" . ?h) ("worcester" . ?w)
+					  ("town" . ?t) ("supermarket" . ?s) ("phone" . ?p)
+					  (:endgroup . nil))
+	  org-fast-tag-selection-single-key t
+	  org-todo-keywords '((sequence "TODO" "|" "DONE"))
+	  org-refile-targets `((,(concat org-directory "gtd.org") :maxlevel . 1)
+						   (,(concat org-directory "someday.org") :level . 2))
+	  org-agenda-custom-commands '(("cb" tags-todo "+supermarket")
+								   ("ct" tags-todo "+town")))
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
+
+(defvar org-mobile-push-timer nil
+  "Timer that `org-mobile-push-timer' used to reschedule itself, or nil.")
+
+(defun org-mobile-push-with-delay (secs)
+  "Push org files only if not pushed within the last SECS secs."
+  (when org-mobile-push-timer
+    (cancel-timer org-mobile-push-timer))
+  (setq org-mobile-push-timer
+        (run-with-idle-timer
+         (* 1 secs) nil 'org-mobile-push)))
+
+(add-hook 'after-save-hook
+		  (lambda ()
+			(when (eq major-mode 'org-mode)
+			  (dolist (file (org-mobile-files-alist))
+				(if (string= (file-truename (expand-file-name (car file)))
+							 (file-truename (buffer-file-name)))
+					(org-mobile-push-with-delay 30))))))
