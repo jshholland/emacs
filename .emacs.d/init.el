@@ -7,6 +7,7 @@
 (load-theme 'base16-default-dark t)
 
 (set-face-font 'default "Fira Mono-12")
+(set-face-font 'fixed-pitch-serif "Fira Mono-12")
 (set-face-font 'variable-pitch "Concourse T4-14")
 
 (when (memq window-system '(mac ns))
@@ -21,7 +22,7 @@
 		(desktop-save desktop-dirname))))
 
 (server-start)
-(global-linum-mode 1)
+(global-display-line-numbers-mode 1)
 
 (global-flycheck-mode 1)
 (global-company-mode 1)
@@ -101,7 +102,7 @@
  '(org-agenda-files (quote ("~/Nextcloud/org/gtd.org")))
  '(package-selected-packages
    (quote
-	(exec-path-from-shell smartparens csv-mode pkgbuild-mode tuareg yaml-mode xml-rpc virtualenvwrapper twittering-mode toml-mode solarized-theme slime shakespeare-mode sensitive rustfmt puppet-mode paredit org-trello markdown-mode magit love-minor-mode ledger-mode jekyll-modes jabber intero idris-mode hackernews go-mode ghc flycheck-rust feature-mode erc-hl-nicks edit-server cargo beeminder base16-theme auctex)))
+	(rust-mode exec-path-from-shell smartparens csv-mode pkgbuild-mode tuareg yaml-mode xml-rpc virtualenvwrapper twittering-mode toml-mode solarized-theme slime shakespeare-mode sensitive rustfmt puppet-mode paredit org-trello markdown-mode magit love-minor-mode ledger-mode jekyll-modes jabber intero idris-mode hackernews go-mode ghc flycheck-rust feature-mode erc-hl-nicks edit-server cargo beeminder base16-theme auctex)))
  '(safe-local-variable-values (quote ((pyvenv-workon . miniserver_backup)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -126,17 +127,14 @@
 
 (require 'smartparens-config)
 (require 'smartparens-latex)
-(add-to-list 'sp-navigate-consider-stringlike-sexp 'latex-mode)
 (add-hook 'latex-mode-hook #'smartparens-mode)
 
 (setq org-directory "~/Nextcloud/org/"
-	  org-mobile-files `(,(concat org-directory "default.org") org-agenda-files)
-	  org-mobile-directory (concat org-directory "mobile")
-	  org-mobile-inbox-for-pull (concat org-directory "frommobile.org")
 	  org-default-notes-file (concat org-directory "default.org")
 	  org-log-done 'time
 	  org-capture-templates '(("t" "Todo" entry (file+headline (concat org-directory "gtd.org") "Tasks")
-							   "** TODO %? %^G\n   %i\n   %a\n   Added: %U"))
+							   "** TODO %? %^G\n   %i\n   %a\n   Added: %U")
+							  ("w" "Work log" item (file+olp+datetree "" "Work log")))
 	  org-tag-alist '((:startgroup . nil)
 					  ("office" . ?o) ("home" . ?h) ("worcester" . ?w)
 					  ("town" . ?t) ("supermarket" . ?s) ("phone" . ?p)
@@ -151,22 +149,3 @@
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
-
-(defvar org-mobile-push-timer nil
-  "Timer that `org-mobile-push-timer' used to reschedule itself, or nil.")
-
-(defun org-mobile-push-with-delay (secs)
-  "Push org files only if not pushed within the last SECS secs."
-  (when org-mobile-push-timer
-    (cancel-timer org-mobile-push-timer))
-  (setq org-mobile-push-timer
-        (run-with-idle-timer
-         (* 1 secs) nil 'org-mobile-push)))
-
-(add-hook 'after-save-hook
-		  (lambda ()
-			(when (eq major-mode 'org-mode)
-			  (dolist (file (org-mobile-files-alist))
-				(if (string= (file-truename (expand-file-name (car file)))
-							 (file-truename (buffer-file-name)))
-					(org-mobile-push-with-delay 30))))))
