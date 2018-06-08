@@ -4,7 +4,7 @@
 			 '("elpy" . "http://jorgenschaefer.github.io/packages/"))
 (package-initialize)
 
-(load-theme 'base16-default-dark t)
+(load-theme 'snazzy t)
 
 (set-face-font 'default "Fira Mono-12")
 (set-face-font 'fixed-pitch-serif "Fira Mono-12")
@@ -13,13 +13,8 @@
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
 
+(setq desktop-restore-eager 3)
 (desktop-save-mode 1)
-(setq desktop-save t)
-(add-hook 'auto-save-hook
-	  (lambda ()
-	    (interactive)
-	    (if (eq (desktop-owner) (emacs-pid))
-		(desktop-save desktop-dirname))))
 
 (server-start)
 (global-display-line-numbers-mode 1)
@@ -34,7 +29,7 @@
 (require 'dired-x)
 (setq dired-listing-switches "-alh")
 
-(setq vc-handled-backends nil)
+(setq vc-handled-backends '(SVN))
 
 (setq frame-title-format '("%b - Emacs " emacs-version))
 (size-indication-mode 1)
@@ -56,9 +51,9 @@
 
 (column-number-mode 1)
 
-(ido-mode 1)
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
+(ido-mode 1)
 
 (setq next-line-add-newlines t)
 (put 'scroll-left 'disabled nil)
@@ -85,11 +80,6 @@
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 (add-hook 'scheme-mode-hook 'paredit-mode)
 
-(require 'virtualenvwrapper)
-(venv-initialize-eshell)
-(setq venv-location "~/.venvs/")
-(add-hook 'python-mode (lambda () (setq indent-tabs-mode nil)))
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -102,7 +92,7 @@
  '(org-agenda-files (quote ("~/Nextcloud/org/gtd.org")))
  '(package-selected-packages
    (quote
-	(rust-mode exec-path-from-shell smartparens csv-mode pkgbuild-mode tuareg yaml-mode xml-rpc virtualenvwrapper twittering-mode toml-mode solarized-theme slime shakespeare-mode sensitive rustfmt puppet-mode paredit org-trello markdown-mode magit love-minor-mode ledger-mode jekyll-modes jabber intero idris-mode hackernews go-mode ghc flycheck-rust feature-mode erc-hl-nicks edit-server cargo beeminder base16-theme auctex)))
+	(snazzy-theme auto-package-update use-package notmuch smtpmail-multi company-auctex rust-mode exec-path-from-shell smartparens csv-mode pkgbuild-mode tuareg yaml-mode xml-rpc virtualenvwrapper twittering-mode toml-mode solarized-theme slime shakespeare-mode sensitive rustfmt puppet-mode paredit org-trello markdown-mode magit love-minor-mode ledger-mode jekyll-modes jabber intero idris-mode hackernews go-mode ghc flycheck-rust feature-mode erc-hl-nicks edit-server cargo beeminder base16-theme auctex)))
  '(safe-local-variable-values (quote ((pyvenv-workon . miniserver_backup)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -114,20 +104,10 @@
 
 (setq magit-last-seen-setup-instructions "1.4.0")
 
-(setq lua-indent-level 2)
-(add-hook 'lua-mode (lambda ()
-					  (setq-local indent-tabs-mode nil)))
-
 (require 'ledger-mode)
 (add-to-list 'auto-mode-alist '("\.ledger$" . ledger-mode))
 (setq ledger-reconcile-default-commodity "£"
 	  ledger-clear-whole-transactions t)
-
-(load "~/PG/generic/proof-site")
-
-(require 'smartparens-config)
-(require 'smartparens-latex)
-(add-hook 'latex-mode-hook #'smartparens-mode)
 
 (setq org-directory "~/Nextcloud/org/"
 	  org-default-notes-file (concat org-directory "default.org")
@@ -149,3 +129,34 @@
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
+
+(setq TeX-auto-save t
+	  TeX-parse-self t)
+(setq-default TeX-master nil)
+
+(setq user-full-name "Josh Holland"
+	  user-mail-address "josh@inv.alid.pw"
+	  notmuch-command "~/.local/bin/notmuch-remote"
+	  send-mail-function 'smtpmail-multi-send-it
+	  message-send-mail-function 'smtpmail-multi-send-it
+	  smtpmail-multi-accounts '((soton . ("jh2e16"
+										  "smtp.soton.ac.uk"
+										  25
+										  nil
+										  starttls
+										  nil
+										  nil
+										  "soton.ac.uk"))
+								(fastmail . ("jshholland@fastmail.fm"
+											 "smtp.fastmail.com"
+											 465
+											 nil
+											 ssl
+											 nil
+											 nil
+											 "inv.alid.pw")))
+	  smtpmail-multi-account-default-account 'fastmail
+	  smtpmail-multi-associations '(("josh@inv.alid.pw\\|josh@jholland.eu" fastmail)
+									("j.holland@soton.ac.uk\\|jh2e16@soton.ac.uk" soton)))
+
+(auto-package-update-maybe)
